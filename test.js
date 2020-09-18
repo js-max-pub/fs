@@ -9,7 +9,7 @@ function test(file) {
 	console.log(file('aa.txt').exists)
 }
 function run(sys) {
-	import(`./file.${sys}.js`).then(x => test(x.default))
+	import(`./js/file/${sys}.js`).then(x => test(x.default))
 }
 
 
