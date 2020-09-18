@@ -1,4 +1,4 @@
-import Base from './file.both.js';
+import Base from './base.js';
 
 export class File extends Base {
 	#path;
