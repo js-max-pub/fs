@@ -1,6 +1,8 @@
 
 
-File Class for both [Node](https://nodejs.org/) and [Deno](https://deno.land)
+File Class for both [Node](https://nodejs.org/) and [Deno](https://deno.land)   
+
+inpired by (Dart)[https://api.dart.dev/dart-io/File-class.html]
 
 ```javascript
 // choose an import depending on your runtime

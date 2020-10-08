@@ -27,7 +27,6 @@ export class Folder extends Base {
                 yield Deno.realPathSync(this.#path + '/' + item.name);
             }
         }
-
     }
 }
 export default function (path) { return new Folder(path) }
