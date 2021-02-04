@@ -43,6 +43,7 @@ export class File extends Base {
 	}
 	remove() {
 		Deno.removeSync(this.path)
+		return this
 	}
 }
 

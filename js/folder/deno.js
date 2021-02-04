@@ -67,6 +67,7 @@ export class Folder extends Base {
 	}
 	remove() {
 		Deno.removeSync(this.#path, { recursive: true });
+		return this;
 	}
 }
 export default function (path) { return new Folder(path) }
