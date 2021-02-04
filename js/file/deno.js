@@ -8,10 +8,16 @@ export class File extends Base {
 		this.#path = path;
 	}
 	get text() {
-		return Deno.readTextFileSync(this.#path);
+		try {
+			return Deno.readTextFileSync(this.#path);
+		} catch {
+			return null
+		}
 	}
 	set text(p) {
-		Deno.writeTextFileSync(this.#path, p);
+		try {
+			Deno.writeTextFileSync(this.#path, p);
+		} catch { }
 	}
 
 	get stat() {
