@@ -40,7 +40,7 @@ export class Folder extends Base {
 		return this;
 	}
 	get path() {
-		return Deno.realPathSync(this.#path)
+		return Deno.realPathSync(this.#path).replaceAll('\\','/')
 	}
 	toString() {
 		return this.path
