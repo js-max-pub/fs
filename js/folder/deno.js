@@ -58,7 +58,9 @@ export class Folder extends Base {
 	}
 	get list() {
 		this.#cache = [];
-		for (let item of Deno.readDirSync(this.#path)) {
+		try { var list = Deno.readDirSync(this.#path) }
+		catch { return [] }
+		for (let item of list) {
 			// return Deno.readDirSync(this.#path).map(item => {
 			if (item.isDirectory) this.#cache.push(this.folder(item.name))
 			if (item.isFile) this.#cache.push(this.file(item.name))
