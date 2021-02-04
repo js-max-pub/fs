@@ -20,7 +20,7 @@ export class File extends Base {
 			Deno.writeTextFileSync(this.#path, p);
 		} catch { }
 	}
-	get folder(){
+	get folder() {
 		return folder(this.#path.split('/').slice(0, -1).join('/'))
 	}
 
@@ -47,6 +47,9 @@ export class File extends Base {
 	}
 	get name() {
 		return this.path.split('/').slice(-1)[0];
+	}
+	get basename() {
+		return this.name.split('.').slice(0, -1).join('.');
 	}
 	get extension() {
 		return this.name.split('.').slice(-1)[0];
