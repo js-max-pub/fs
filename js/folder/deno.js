@@ -31,8 +31,7 @@ export class Folder extends Base {
 	}
 
 	get size() {
-		// console.log('why', this, this.cache)
-		return this.cache.map(x => x.size ?? 0).flat().reduce((acc, val) => acc += val, 0)
+		return this.list.map(x => x.size ?? 0).flat().reduce((acc, val) => acc += val, 0)
 	}
 
 	create(path = '') {
@@ -50,13 +49,17 @@ export class Folder extends Base {
 	}
 
 	get item() {
-		return Object.fromEntries(this.cache.map(x => [x.name, x]))
+		return Object.fromEntries(this.list.map(x => [x.name, x]))
 	}
-	get cache() {
-		// console.log('load cache',this.path)
-		return this.#cache.length ? this.#cache : this.list
+	// get cache() {
+	// 	// console.log('load cache',this.path)
+	// 	return this.#cache.length ? this.#cache : this.list
+	// }
+	get clearCache(){
+		this.#cache = [];
 	}
 	get list() {
+		if(this.#cache.length) return this.#cache
 		this.#cache = [];
 		try { var list = Deno.readDirSync(this.#path) }
 		catch { return [] }

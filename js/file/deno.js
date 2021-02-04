@@ -3,12 +3,14 @@ import folder from '../folder/deno.js';
 
 export class File extends Base {
 	#path;
+	#cache = null
 	type = 'file'
 	constructor(path) {
 		super();
 		this.#path = path;
 	}
 	get text() {
+		if (this.#cache) return this.#cache
 		try {
 			return Deno.readTextFileSync(this.#path);
 		} catch {
@@ -19,6 +21,10 @@ export class File extends Base {
 		try {
 			Deno.writeTextFileSync(this.#path, p);
 		} catch { }
+	}
+	get clearCache() {
+		this.#cache = null
+		return this
 	}
 	get folder() {
 		return folder(this.#path.split('/').slice(0, -1).join('/'))
@@ -40,7 +46,7 @@ export class File extends Base {
 	}
 
 	get path() {
-		return Deno.realPathSync(this.#path).replaceAll('\\','/');
+		return Deno.realPathSync(this.#path).replaceAll('\\', '/');
 	}
 	toString() {
 		return this.path
