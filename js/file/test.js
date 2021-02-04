@@ -1,4 +1,4 @@
-import FS from './js/auto.js';
+import FS from '../auto.js';
 
 
 (async function () {

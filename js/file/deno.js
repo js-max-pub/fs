@@ -2,6 +2,7 @@ import Base from './base.js';
 
 export class File extends Base {
 	#path;
+	type = 'file'
 	constructor(path) {
 		super();
 		this.#path = path;
@@ -30,6 +31,15 @@ export class File extends Base {
 
 	get path() {
 		return Deno.realPathSync(this.#path);
+	}
+	toString() {
+		return this.path
+	}
+	get name() {
+		return this.path.split('/').slice(-1)[0];
+	}
+	get extension() {
+		return this.name.split('.').slice(-1)[0];
 	}
 	remove() {
 		Deno.removeSync(this.path)

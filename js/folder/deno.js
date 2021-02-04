@@ -1,32 +1,72 @@
-import deno from '../file/deno.js';
+import { File } from '../file/deno.js';
 import Base from './base.js';
 
 export class Folder extends Base {
-    #path;
-    constructor(path) {
-        super();
-        this.#path = path;
-    }
+	#path;
+	#cache = [];
+	type = 'folder'
+	constructor(path = './') {
+		super();
+		this.#path = path;
+	}
+	folder(path = '') {
+		return new Folder(this.#path + '/' + path)
+	}
+	file(path = '') {
+		return new File(this.#path + '/' + path)
+	}
+	get stat() {
+		// if (!this.stat)
+		// 	this.stat = Deno.statSync(this.path);
+		// return this.stat;
+		return Deno.statSync(this.#path);
+	}
+	get exists() {
+		try {
+			this.stat;
+			return true;
+		} catch {
+			return false
+		}
+	}
 
-    get exists() {
+	get size() {
+		// console.log('why', this, this.cache)
+		return this.cache.map(x => x.size ?? 0).flat().reduce((acc, val) => acc += val, 0)
+	}
 
-    }
-    create(recursive = false) {
-        Deno.mkdirSync(this.#path, { recursive })
-    }
+	create(path = '') {
+		Deno.mkdirSync(this.#path + '/' + path, { recursive: true })
+		return this;
+	}
+	get path() {
+		return Deno.realPathSync(this.#path)
+	}
+	toString() {
+		return this.path
+	}
+	get name() {
+		return this.path.split('/').slice(-1)[0];
+	}
 
-    * list(recursive = false) {
-        yield Deno.realPathSync(this.#path) + '/';
-        for (const item of Deno.readDirSync(this.#path)) {
-            if (item.isDirectory) {
-                yield Deno.realPathSync(this.#path + '/' + item.name) + '/';
-                if (recursive)
-                    yield* new Folder(this.#path + '/' + item.name).list(true);
-            }
-            if (item.isFile) {
-                yield Deno.realPathSync(this.#path + '/' + item.name);
-            }
-        }
-    }
+	get item() {
+		return Object.fromEntries(this.cache.map(x => [x.name, x]))
+	}
+	get cache() {
+		// console.log('load cache',this.path)
+		return this.#cache.length ? this.#cache : this.list
+	}
+	get list() {
+		this.#cache = [];
+		for (let item of Deno.readDirSync(this.#path)) {
+			// return Deno.readDirSync(this.#path).map(item => {
+			if (item.isDirectory) this.#cache.push(this.folder(item.name))
+			if (item.isFile) this.#cache.push(this.file(item.name))
+		}
+		return this.#cache;
+	}
+	remove() {
+		Deno.removeSync(this.#path, { recursive: true });
+	}
 }
 export default function (path) { return new Folder(path) }
