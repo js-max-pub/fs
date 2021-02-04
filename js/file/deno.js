@@ -1,4 +1,5 @@
 import Base from './base.js';
+import folder from '../folder/deno.js';
 
 export class File extends Base {
 	#path;
@@ -18,6 +19,9 @@ export class File extends Base {
 		try {
 			Deno.writeTextFileSync(this.#path, p);
 		} catch { }
+	}
+	get folder(){
+		return folder(this.#path.split('/').slice(0, -1).join('/'))
 	}
 
 	get stat() {
