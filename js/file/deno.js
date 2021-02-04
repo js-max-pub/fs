@@ -42,7 +42,9 @@ export class File extends Base {
 		return this.name.split('.').slice(-1)[0];
 	}
 	remove() {
-		Deno.removeSync(this.path)
+		try {
+			Deno.removeSync(this.path)
+		} catch { }
 		return this
 	}
 }
