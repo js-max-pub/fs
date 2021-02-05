@@ -5,7 +5,7 @@ let here = folder()
 console.log(here.path)
 console.log(here.cache)
 console.log('size',here.size)
-for(let item of here.cache){
+for(let item of here.list){
 	console.log(item.type, item.path, item.name, item.extension, item.size)
 }
 

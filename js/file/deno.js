@@ -26,9 +26,6 @@ export class File extends Base {
 		this.#cache = null
 		return this
 	}
-	get folder() {
-		return folder(this.#path.split('/').slice(0, -1).join('/'))
-	}
 
 	get stat() {
 		// if (!this.stat)
@@ -43,6 +40,10 @@ export class File extends Base {
 		} catch {
 			return false
 		}
+	}
+
+	get folder() {
+		return folder(this.#path.split('/').slice(0, -1).join('/'))
 	}
 
 	get path() {

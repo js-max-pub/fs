@@ -39,7 +39,10 @@ export class Folder extends Base {
 		return this;
 	}
 	get path() {
-		return Deno.realPathSync(this.#path).replaceAll('\\','/')
+		return Deno.realPathSync(this.#path).replaceAll('\\', '/')
+	}
+	get parent() {
+		return new Folder(this.path.split('/').filter(x => x).slice(0, -1).join('/'))
 	}
 	toString() {
 		return this.path
@@ -55,11 +58,11 @@ export class Folder extends Base {
 	// 	// console.log('load cache',this.path)
 	// 	return this.#cache.length ? this.#cache : this.list
 	// }
-	get clearCache(){
+	get clearCache() {
 		this.#cache = [];
 	}
 	get list() {
-		if(this.#cache.length) return this.#cache
+		if (this.#cache.length) return this.#cache
 		this.#cache = [];
 		try { var list = Deno.readDirSync(this.#path) }
 		catch { return [] }
