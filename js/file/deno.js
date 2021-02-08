@@ -4,6 +4,8 @@ import folder from '../folder/deno.js';
 export class File extends Base {
 	#path;
 	#cache = null
+	_stats = null
+	_append = false
 	type = 'file'
 	constructor(path) {
 		super();
@@ -19,19 +21,26 @@ export class File extends Base {
 	}
 	set text(p) {
 		try {
-			Deno.writeTextFileSync(this.#path, p);
+			Deno.writeTextFileSync(this.#path, p, { append: this._append });
 		} catch { }
 	}
-	get clearCache() {
+	get reload() {
 		this.#cache = null
 		return this
+	}
+	get append() {
+		this._append = true
 	}
 
 	get stat() {
 		// if (!this.stat)
 		// 	this.stat = Deno.statSync(this.path);
 		// return this.stat;
-		return Deno.statSync(this.#path);
+		try {
+			if (!this._stat)
+				this._stat = Deno.statSync(this.#path)
+		} catch { }
+		return this._stat;
 	}
 	get exists() {
 		try {
@@ -47,7 +56,11 @@ export class File extends Base {
 	}
 
 	get path() {
-		return Deno.realPathSync(this.#path).replaceAll('\\', '/');
+		try {
+			return Deno.realPathSync(this.#path).replaceAll('\\', '/');
+		} catch {
+			return null
+		}
 	}
 	toString() {
 		return this.path

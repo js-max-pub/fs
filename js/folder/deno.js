@@ -5,6 +5,7 @@ export class Folder extends Base {
 	#path;
 	#cache = [];
 	type = 'folder'
+	// _pathSeparator = '/'
 	constructor(path = './') {
 		super();
 		this.#path = path;
