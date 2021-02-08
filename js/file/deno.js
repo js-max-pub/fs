@@ -31,6 +31,7 @@ export class File extends Base {
 	}
 	get append() {
 		this._append = true
+		return this;
 	}
 
 	get stat() {

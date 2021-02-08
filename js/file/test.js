@@ -10,6 +10,7 @@ import FS from '../auto.js';
 	console.log(testFile.size);
 	console.log(testFile.path);
 	// testFile.remove()
+	file('-test/b.txt').append.text = 'jo'
 
 	console.log(file('test.txt').exists)
 
