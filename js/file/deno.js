@@ -22,6 +22,7 @@ export class File extends Base {
 	set text(p) {
 		try {
 			Deno.writeTextFileSync(this.#path, p, { append: this._append });
+			this._append = false
 		} catch { }
 	}
 	get reload() {
