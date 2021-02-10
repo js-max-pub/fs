@@ -4,6 +4,19 @@ File Class for both [Node](https://nodejs.org/) and [Deno](https://deno.land)
 
 loosely inpired by [Dart](https://api.dart.dev/dart-io/File-class.html)
 
+
+## folder
+```js
+import {folder} from 'https://js.max.pub/fs/deno.js';  // deno 
+
+let testFolder = folder('test/folder/').remove().create() // removes and recreates the folder
+testFolder.list // -> an array of file and folder objects
+testFolder.size // -> recursively determine the size of all contained files and folders
+testFolder.remove() // -> recursive deletion
+```
+
+
+
 ## file
 ```js
 // choose an import depending on your runtime
@@ -33,12 +46,3 @@ testFile.name // -> "test.json"
 ```
 
 
-## folder
-```js
-import {folder} from 'https://js.max.pub/fs/deno.js';  // deno 
-
-let testFolder = folder('test/folder/').remove().create() // removes and recreates the folder
-testFolder.list // -> an array of file and folder objects
-testFolder.size // -> recursively determine the size of all contained files and folders
-testFolder.remove() // -> recursive deletion
-```
