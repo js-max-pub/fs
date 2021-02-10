@@ -2,20 +2,22 @@
 
 File Class for both [Node](https://nodejs.org/) and [Deno](https://deno.land)   
 
-inpired by (Dart)[https://api.dart.dev/dart-io/File-class.html]
+loosely inpired by (Dart)[https://api.dart.dev/dart-io/File-class.html]
 
 ```javascript
 // choose an import depending on your runtime
-import File from "./js/file/deno.js";   // local deno import
-import File from 'https://max.pub/fs/js/file/deno.js';  // deno import directly from github
-import File from './js/file/node.js';  // local nodejs import
+import file from 'https://js.max.pub/fs/file/deno.js';  // deno 
+import file from 'fofi';  // nodejs ... do 'npm i fofi' first
 
-let testFile = File("test.json");
+let testFile = file("test.json");
 testFile.exists  // -> false
 testFile.json = { abc: 1, bcd: 2 };
-testFile.json; // -> { abc: 1, bcd: 2 }
+testFile.json // -> { abc: 1, bcd: 2 }
 testFile.exists  // -> true
 testFile.size // -> 24
 testFile.path  // -> /full/path/to/abc.json
 testFile.remove(); 
+
+testFile.text = 'hello world' // writes content SYNChronously
+await testFile.async.text // reads content ASYNChronously
 ```
