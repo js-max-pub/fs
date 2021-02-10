@@ -1,5 +1,5 @@
 import file from './deno.js';
-import test from 'https://max.pub/lib/test/raw.js'
+import test from 'https://js.max.pub/test/raw.js'
 
 let tmp = file('-test/tmp.txt')
 tmp.cache.text = 'aaa'
