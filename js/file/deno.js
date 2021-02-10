@@ -1,38 +1,55 @@
-import Base from './base.js';
-import folder from '../folder/deno.js';
+import Base, { CONTENT } from './base.js';
+// import folder from '../folder/deno.js';
 
 export class File extends Base {
-	#path;
-	#cache = null
-	_stats = null
-	_append = false
-	type = 'file'
-	constructor(path) {
-		super();
-		this.#path = path;
-	}
+
 	get text() {
-		if (this.#cache) return this.#cache
-		try {
-			return Deno.readTextFileSync(this.#path);
-		} catch {
-			return null
+		let cache = this.CACHE
+		if (cache) {
+			// console.log('return from cache')
+			this._cache = false
+			return cache
 		}
+		// return this._cache
+		try {
+			if (this._async) {
+				this._async = false
+				return Deno.readTextFile(this._path).then(content => {
+					// return this._cache = x
+					// console.log('async content',content)
+					this.CACHE = content
+					this._cache = false
+					return content
+					// return this.setContent(x)
+				});
+			} else {
+				// console.log('get text and cache')
+				let content = Deno.readTextFileSync(this._path)
+				this.CACHE = content
+				this._cache = false
+				return content
+			}
+			// return this.setContent(Deno.readTextFileSync(this._path))
+			// return this._cache = Deno.readTextFileSync(this._path);
+		} catch {
+			return this._cache = null
+		}
+		// return this._cache
 	}
 	set text(p) {
 		try {
-			Deno.writeTextFileSync(this.#path, p, { append: this._append });
+			if (this._async) {
+				// console.log('async write')
+				this._async = false
+				Deno.writeTextFile(this._path, p, { append: this._append });
+			} else
+				Deno.writeTextFileSync(this._path, p, { append: this._append });
+			if (this._append) this.CACHE += p
+			else this.CACHE = p
 			this._append = false
 		} catch { }
 	}
-	get reload() {
-		this.#cache = null
-		return this
-	}
-	get append() {
-		this._append = true
-		return this;
-	}
+
 
 	get stat() {
 		// if (!this.stat)
@@ -40,7 +57,7 @@ export class File extends Base {
 		// return this.stat;
 		try {
 			if (!this._stat)
-				this._stat = Deno.statSync(this.#path)
+				this._stat = Deno.statSync(this._path)
 		} catch { }
 		return this._stat;
 	}
@@ -53,29 +70,16 @@ export class File extends Base {
 		}
 	}
 
-	get folder() {
-		return folder(this.#path.split('/').slice(0, -1).join('/'))
-	}
 
 	get path() {
 		try {
-			return Deno.realPathSync(this.#path).replaceAll('\\', '/');
+			return Deno.realPathSync(this._path).replaceAll('\\', '/');
 		} catch {
 			return null
 		}
 	}
-	toString() {
-		return this.path
-	}
-	get name() {
-		return this.path.split('/').slice(-1)[0];
-	}
-	get basename() {
-		return this.name.split('.').slice(0, -1).join('.');
-	}
-	get extension() {
-		return this.name.split('.').slice(-1)[0];
-	}
+
+
 	remove() {
 		try {
 			Deno.removeSync(this.path)
@@ -85,3 +89,48 @@ export class File extends Base {
 }
 
 export default function (path) { return new File(path) }
+
+
+
+
+	// _path;
+	// _cache = null
+	// _stats = null
+	// _append = false
+	// _async = false
+	// type = 'file'
+
+	// constructor(path) {
+	// 	super();
+	// 	this._path = path;
+	// }
+
+	// get reload() {
+	// 	this._cache = null
+	// 	return this
+	// }
+	// get append() {
+	// 	this._append = true
+	// 	return this;
+	// }
+	// get async() {
+	// 	this._async = true;
+	// 	return this;
+	// }
+
+
+
+	// get folder() {
+	// 	return folder(this._path.split('/').slice(0, -1).join('/'))
+	// }
+
+
+	// get name() {
+	// 	return this.path.split('/').slice(-1)[0];
+	// }
+	// get basename() {
+	// 	return this.name.split('.').slice(0, -1).join('.');
+	// }
+	// get extension() {
+	// 	return this.name.split('.').slice(-1)[0];
+	// }

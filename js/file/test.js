@@ -1,19 +1,12 @@
-import FS from '../auto.js';
+import file from './deno.js';
+import test from 'https://max.pub/lib/test/raw.js'
 
+let tmp = file('-test/tmp.txt')
+tmp.cache.text = 'aaa'
+test.equal('sync-read', tmp.text, 'aaa')
+test.equal('sync-cache', tmp.cache.text, 'aaa')
 
-(async function () {
-	let {file,folder} = await FS();
-	let testFile = file('-test/test.json');
-	testFile.folder.create()
-	testFile.json = { abc: 1, bcd: 2 }
-	console.log(testFile.json)
-	console.log(testFile.size);
-	console.log(testFile.path);
-	// testFile.remove()
-	file('-test/b.txt').append.text = 'jo'
-
-	console.log(file('test.txt').exists)
-
-})()
-
-
+tmp.async.cache.text = 'bbb'
+// console.log('b',b)
+test.equal('async-read', await tmp.async.text, 'bbb')
+test.equal('async-cache', await tmp.async.cache.text, 'bbb')
