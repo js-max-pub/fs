@@ -20,4 +20,9 @@ testFile.remove();
 
 testFile.text = 'hello world' // writes content SYNChronously
 await testFile.async.text // reads content ASYNChronously
+
+testFile.cache.text = "another greeting" // writes and caches 
+testFile.append.text = " from jupyter" // appends to file
+testFile.cache.text // -> "another greeting from jupyter" -> reads content from cache if available
+
 ```
