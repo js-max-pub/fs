@@ -11,7 +11,7 @@ import file from 'fofi';  // nodejs ... do 'npm i fofi' first
 
 let testFile = file("test.json");
 testFile.exists  // -> false
-testFile.json = { abc: 1, bcd: 2 };
+testFile.json = { abc: 1, bcd: 2 }; // stringify JSON and write to disk
 testFile.json // -> { abc: 1, bcd: 2 }
 testFile.exists  // -> true
 testFile.size // -> 24
