@@ -1,4 +1,4 @@
-import {Folder} from '../folder/base.js';
+import { Folder } from '../folder/deno.js';
 // import { lines, tsv } from 'https://max.pub/lib/string/raw.mjs'
 
 export var CONTENT = {}
