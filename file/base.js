@@ -1,4 +1,4 @@
-import folder from '../folder/base.js';
+import {Folder} from '../folder/base.js';
 // import { lines, tsv } from 'https://max.pub/lib/string/raw.mjs'
 
 export var CONTENT = {}
@@ -19,7 +19,7 @@ export default class {
 	}
 
 	get folder() {
-		return folder(this._path.split('/').slice(0, -1).join('/'))
+		return new Folder(this._path.split('/').slice(0, -1).join('/'))
 	}
 
 	// get reload() {
