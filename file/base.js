@@ -57,7 +57,11 @@ export default class {
 	}
 
 	get json() {
-		return JSON.parse(this.text)
+		try {
+			return JSON.parse(this.text)
+		} catch {
+			return null
+		}
 	}
 	set json(p) {
 		this.text = JSON.stringify(p, null, '\t')
