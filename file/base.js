@@ -15,7 +15,8 @@ export default class {
 	_async = false
 
 	constructor(path) {
-		this._path = path;
+		this._path = path.replace('file://', '');;
+		// console.log('new file', path)
 	}
 
 	get folder() {

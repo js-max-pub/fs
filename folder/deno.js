@@ -8,7 +8,8 @@ export class Folder extends Base {
 	// _pathSeparator = '/'
 	constructor(path = './') {
 		super();
-		this.#path = path;
+		this.#path = path.replace('file://', '');
+		// console.log('new folder', path)
 	}
 	folder(path = '') {
 		return new Folder(this.#path + '/' + path)
