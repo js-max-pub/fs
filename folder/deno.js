@@ -3,13 +3,19 @@ import Base from './base.js';
 
 export class Folder extends Base {
 	#path;
-	#cache = [];
+	// #cache = [];
+	_cache = false;
+	_list = []
 	type = 'folder'
 	// _pathSeparator = '/'
 	constructor(path = './') {
 		super();
 		this.#path = path.replace('file://', '');
 		// console.log('new folder', path)
+	}
+	get cache() {
+		this._cache = true;
+		return this;
 	}
 	folder(path = '') {
 		return new Folder(this.#path + '/' + path)
@@ -60,20 +66,31 @@ export class Folder extends Base {
 	// 	// console.log('load cache',this.path)
 	// 	return this.#cache.length ? this.#cache : this.list
 	// }
-	get clearCache() {
-		this.#cache = [];
-	}
+	// get clearCache() {
+	// 	this.#cache = [];
+	// }
+
 	get list() {
-		if (this.#cache.length) return this.#cache
-		this.#cache = [];
-		try { var list = Deno.readDirSync(this.#path) }
-		catch { return [] }
-		for (let item of list) {
+		if (this._cache)
+			if (this._list.length) {
+				this._cache = false
+				return this._list
+			}
+		// this.#cache = []
+		// var rawList = []
+		try { var rawList = Deno.readDirSync(this.#path) }
+		catch { var rawList = [] }
+		var list = [];
+		for (let item of rawList) {
 			// return Deno.readDirSync(this.#path).map(item => {
-			if (item.isDirectory) this.#cache.push(this.folder(item.name))
-			if (item.isFile) this.#cache.push(this.file(item.name))
+			if (item.isDirectory) list.push(this.folder(item.name))
+			if (item.isFile) list.push(this.file(item.name))
 		}
-		return this.#cache;
+		if (this._cache) {
+			this._list = list
+			this._cache = false
+		}
+		return list
 	}
 	remove() {
 		try {

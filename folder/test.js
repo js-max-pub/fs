@@ -4,8 +4,8 @@ import folder from './deno.js';
 let here = folder()
 console.log(here.path)
 console.log(here.cache)
-console.log('size',here.size)
-for(let item of here.list){
+console.log('size', here.size)
+for (let item of here.list) {
 	console.log(item.type, item.path, item.name, item.extension, item.size)
 }
 
@@ -19,6 +19,11 @@ test.file('2/b.txt').text = ''
 test.file('2/3/a.txt').text = 'asdhfdgsdfgfasd'
 test.file('2/3/b.txt').text = 'fgdd'
 test.file('2/3//4/a.txt').text = 'gfdgh'
+console.log('sub cache list', sub.cache.list)
+sub.file('a.txt').remove();
+console.log('sub cache list', sub.cache.list)
+console.log('sub list', sub.list)
+
 // here.list
-console.log('size',test.size, here.size)
+console.log('size', test.size, here.size)
 // test.remove()
