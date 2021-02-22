@@ -61,7 +61,7 @@ export default class Folder extends Base {
 		for await (const event of watcher) {
 			// console.log('watch-event', event)
 			for (const path of event.paths) {
-				try { var info = Deno.statSync(path) }
+				try { var info = await Deno.stat(path) }
 				catch { var info = null }
 				// console.log('event', path, info)
 				if (!info) yield { path, event: event.kind }
