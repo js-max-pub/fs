@@ -26,14 +26,19 @@ test.file('2/3//4/a.txt').text = 'gfdgh'
 // console.log('sub cache list', sub.cache.list)
 sub.file('a.txt').remove();
 // console.log('sub cache list', sub.cache.list)
-console.log('sub list', sub.list)
+// console.log('sub list', sub.list)
 // for (let item of sub.list) {
 // 	console.log(item.path, item.info)
 // }
 await new Promise(r => setTimeout(r, 100))
-
+for (let item of sub.list) {
+	console.log('sync', item.path)
+}
+for await (let item of sub.async.list()) {
+	console.log('async', await item.path())
+}
 console.log('watch', sub.path)
-for await (const item of sub.events) {
+for await (const item of sub.async.events()) {
 	console.log('watch-item', item)
 }
 // // here.list

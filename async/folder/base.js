@@ -9,14 +9,14 @@ export default class {
 	}
 
 
-	// /**
-	//  * watch-events
-	//  * @param {*} event 
-	//  */
-	// fromEvent(event) {
-	// 	this.event = event;
-	// 	return this;
-	// }
+	/**
+	 * watch-events
+	 * @param {*} event 
+	 */
+	fromEvent(event) {
+		this.event = event;
+		return this;
+	}
 
 	get exists() {
 		return this.info ? true : false

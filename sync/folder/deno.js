@@ -1,11 +1,9 @@
-import File from '../file/deno.js';
 import Base from './base.js';
+import File from '../file/deno.js';
+import AsyncFolder from '../../async/folder/deno.js'
 
 export default class Folder extends Base {
-	// constructor(path) {
-	// 	console.log('folder', path)
-	// 	super(path)
-	// }
+
 	folder(path = '') {
 		return new Folder(this._path + '/' + path)
 	}
@@ -16,9 +14,9 @@ export default class Folder extends Base {
 		return new Folder(this.path.split('/').filter(x => x).slice(0, -1).join('/'))
 	}
 
-	// get async() {
-	// 	return new AsyncFolder(this._path)
-	// }
+	get async() {
+		return new AsyncFolder(this._path)
+	}
 
 	get info() {
 		try { return Deno.statSync(this._path) }
@@ -38,13 +36,13 @@ export default class Folder extends Base {
 
 
 
-	/**
-	 * access dir-list as object...    
-	 * folder.item['a.txt']
-	 */
-	get item() {
-		return Object.fromEntries(this.list.map(x => [x.name, x]))
-	}
+	// /**
+	//  * access dir-list as object...    
+	//  * folder.item['a.txt']
+	//  */
+	// get item() {
+	// 	return Object.fromEntries(this.list.map(x => [x.name, x]))
+	// }
 
 
 	get list() {
@@ -59,28 +57,23 @@ export default class Folder extends Base {
 	}
 
 	// has to be moved to ASYNC version once its ready
-	get events() {
-		return this._events()
-	}
-	async * _events() {
-		let watcher = Deno.watchFs(this._path)
-		for await (const event of watcher) {
-			// console.log('watch-event', event)
-			for (const path of event.paths) {
-				try { var info = Deno.statSync(path) }
-				catch { var info = null }
-				// console.log('event', path, info)
-				if (!info) yield { path, event: event.kind }
-				if (info?.isFile) yield new File(path).fromEvent(event.kind)
-				if (info?.isDirectory) yield new Folder(path).fromEvent(event.kind)
-				// console.log('watch-path', path)
-				// console.log('stat', Deno.statSync(path))
-				// let out = Deno.statSync(path).isFile ? new File(path) : new Folder(path)
-				// out.event = event.kind
-				// yield out
-			}
-		}
-	}
+	// get events() {
+	// 	return this._events()
+	// }
+	// async * _events() {
+	// 	let watcher = Deno.watchFs(this._path)
+	// 	for await (const event of watcher) {
+	// 		// console.log('watch-event', event)
+	// 		for (const path of event.paths) {
+	// 			try { var info = Deno.statSync(path) }
+	// 			catch { var info = null }
+	// 			// console.log('event', path, info)
+	// 			if (!info) yield { path, event: event.kind }
+	// 			if (info?.isFile) yield new File(path).fromEvent(event.kind)
+	// 			if (info?.isDirectory) yield new Folder(path).fromEvent(event.kind)
+	// 		}
+	// 	}
+	// }
 
 	remove() {
 		try {
