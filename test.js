@@ -32,10 +32,10 @@ sub.file('a.txt').remove();
 // }
 await new Promise(r => setTimeout(r, 100))
 for (let item of sub.list) {
-	console.log('sync', item.path)
+	console.log('sync', item.path, item.name)
 }
 for await (let item of sub.async.list()) {
-	console.log('async', await item.path())
+	console.log('async', await item.path(), await item.name())
 }
 console.log('watch', sub.path)
 for await (const item of sub.async.events()) {

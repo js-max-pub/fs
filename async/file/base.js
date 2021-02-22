@@ -25,11 +25,11 @@ export default class {
 	// 	return new Folder(this._path.split('/').slice(0, -1).join('/'))
 	// }
 
-	get size() {
-		return this.info?.size ?? null
+	async size() {
+		return (await this.info())?.size ?? null
 	}
-	get exists() {
-		return this.info ? true : false
+	async exists() {
+		return (await this.info()) ? true : false
 	}
 
 	/**
@@ -40,30 +40,30 @@ export default class {
 		return this;
 	}
 
-	get json() {
-		try {
-			return JSON.parse(this.text)
-		} catch {
-			return null
-		}
-	}
-	set json(p) {
-		this.text = JSON.stringify(p, null, '\t')
-	}
-	get lines() {
-		return lines(this.text)
-	}
+	// get json() {
+	// 	try {
+	// 		return JSON.parse(this.text)
+	// 	} catch {
+	// 		return null
+	// 	}
+	// }
+	// set json(p) {
+	// 	this.text = JSON.stringify(p, null, '\t')
+	// }
+	// get lines() {
+	// 	return lines(this.text)
+	// }
 
 
 
-	get name() {
-		return this.path?.split('/')?.slice(-1)?.[0] ?? null;
+	async name() {
+		return (await this.path())?.split('/')?.slice(-1)?.[0] ?? null;
 	}
-	get basename() {
-		return this.name?.split('.')?.slice(0, -1)?.join('.') ?? null;
+	async basename() {
+		return (await this.name())?.split('.')?.slice(0, -1)?.join('.') ?? null;
 	}
-	get extension() {
-		return this.name?.split('.')?.slice(-1)?.[0] ?? null;
+	async extension() {
+		return (await this.name())?.split('.')?.slice(-1)?.[0] ?? null;
 	}
 
 	toString() {
