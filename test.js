@@ -27,6 +27,9 @@ test.file('2/3//4/a.txt').text = 'gfdgh'
 sub.file('a.txt').remove();
 // console.log('sub cache list', sub.cache.list)
 console.log('sub list', sub.list)
+// for (let item of sub.list) {
+// 	console.log(item.path, item.info)
+// }
 await new Promise(r => setTimeout(r, 100))
 
 console.log('watch', sub.path)
