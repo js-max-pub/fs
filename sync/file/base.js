@@ -11,6 +11,16 @@ export default class {
 		this._path = path.replace('file://', '');;
 	}
 
+	/**
+	 * watch-events
+	 * @param {*} event 
+	 */
+	fromEvent(event) {
+		this.event = event;
+		return this;
+	}
+
+
 	// get folder() {
 	// 	return new Folder(this._path.split('/').slice(0, -1).join('/'))
 	// }

@@ -60,9 +60,25 @@ export default class Folder extends Base {
 
 	// has to be moved to ASYNC version once its ready
 	get events() {
-		return events(this._path)
+		return this._events()
 	}
-
+	async * _events() {
+		let watcher = Deno.watchFs(this._path)
+		for await (const event of watcher) {
+			// console.log('watch-event', event)
+			for (const path of event.paths) {
+				let info = this.info;
+				if (!info) yield { path, event: event.kind }
+				if (info?.isFile) yield new File(path).fromEvent(event.kind)
+				if (info?.isDirectory) yield new Folder(path).fromEvent(event.kind)
+				// console.log('watch-path', path)
+				// console.log('stat', Deno.statSync(path))
+				// let out = Deno.statSync(path).isFile ? new File(path) : new Folder(path)
+				// out.event = event.kind
+				// yield out
+			}
+		}
+	}
 
 	remove() {
 		try {
@@ -72,18 +88,6 @@ export default class Folder extends Base {
 	}
 }
 
-async function* events(path) {
-	let watcher = Deno.watchFs(path)
-	for await (const event of watcher) {
-		// console.log('watch-event', event)
-		for (const path of event.paths) {
-			// console.log('watch-path', path)
-			// console.log('stat', Deno.statSync(path))
-			let out = Deno.statSync(path).isFile ? new File(path) : new Folder(path)
-			out.event = event.kind
-			yield out
-		}
-	}
-}
+
 
 // export default function (path) { return new Folder(path) }
