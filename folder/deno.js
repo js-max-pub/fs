@@ -92,6 +92,11 @@ export class Folder extends Base {
 		}
 		return list
 	}
+	get events() {
+		return events(this.#path)
+	}
+
+	
 	remove() {
 		try {
 			Deno.removeSync(this.#path, { recursive: true });
@@ -99,4 +104,19 @@ export class Folder extends Base {
 		return this;
 	}
 }
+
+async function* events(path) {
+	let watcher = Deno.watchFs(path)
+	for await (const event of watcher) {
+		// console.log('watch-event', event)
+		for (const path of event.paths) {
+			// console.log('watch-path', path)
+			// console.log('stat', Deno.statSync(path))
+			let out = Deno.statSync(path).isFile ? new File(path) : new Folder(path)
+			out.event = event.kind
+			yield out
+		}
+	}
+}
+
 export default function (path) { return new Folder(path) }

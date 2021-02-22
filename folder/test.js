@@ -10,7 +10,7 @@ for (let item of here.list) {
 }
 
 
-let test = here.folder('-test').create()
+let test = here.folder('_test').create()
 
 let sub = test.folder('2/3/4').create()
 test.file('a.txt').text = 'jo'
@@ -23,7 +23,12 @@ console.log('sub cache list', sub.cache.list)
 sub.file('a.txt').remove();
 console.log('sub cache list', sub.cache.list)
 console.log('sub list', sub.list)
+await new Promise(r => setTimeout(r, 100))
 
+console.log('watch', sub.path)
+for await (const item of sub.events) {
+	console.log('watch-item', item)
+}
 // here.list
 console.log('size', test.size, here.size)
 // test.remove()

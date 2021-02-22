@@ -37,6 +37,7 @@ export class File extends Base {
 		// return this._cache
 	}
 	set text(p) {
+		console.log('write', this._path, 'async', this._async)
 		try {
 			if (this._async) {
 				// console.log('async write')
