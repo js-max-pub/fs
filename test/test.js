@@ -3,7 +3,7 @@ import test from 'https://js.max.pub/test/raw.js'
 // import './src/sync/test.url.js'
 // console.log(new URL('./url.txt'))
 
-let testFolder = FS.folder('_test').create()
+let testFolder = FS.folder('_test').create().debug
 console.log(testFolder.path)
 console.log(testFolder.time)
 

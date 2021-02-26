@@ -30,8 +30,13 @@ export class Base {
 		return this.path
 	}
 
-	_debug(action, ...x) {
-		debug(this.type, this.mode, action, this.path, ...x)
+	_log(action, ...x) {
+		if (this._debug)
+			debug(this.type, this.mode, action, this.path, ...x)
+	}
+	get debug() {
+		this._debug = true
+		return this
 	}
 
 	/**
@@ -44,7 +49,7 @@ export class Base {
 	}
 
 	exec(action, func, ...p) {
-		this._debug(action)
+		this._log(action)
 		try { return Deno[func](...p) }
 		catch { return null }
 	}
