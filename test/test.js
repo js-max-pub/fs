@@ -7,36 +7,50 @@ let testFolder = FS.folder('_test').create().debug
 console.log(testFolder.path)
 console.log(testFolder.time)
 
-let testFile = testFolder.file('test.txt')
+let file1 = testFolder.file('1.txt')
 
-testFile.text = 'aa';
-test.equal('read', testFile.text, 'aa')
-test.equal('size', testFile.size, 2)
+file1.text = 'aa';
+test.equal('read', file1.text, 'aa')
+test.equal('size', file1.size, 2)
+test.equal('bytes', file1.bytes, new Uint8Array([97, 97]))
+file1.append.text = 'bb'
+test.equal('read', file1.text, 'aabb')
 
-test.equal('bytes', testFile.bytes, new Uint8Array([97, 97]))
-console.log('time', testFile.time)
-console.log('blocks', testFile.block)
 
-test.equal('exists', testFile.exists, true)
-testFile.remove()
-test.equal('exists', testFile.exists, false)
 
-test.equal('name', testFile.name, 'test.txt')
-test.equal('basename', testFile.basename, 'test')
-test.equal('extension', testFile.extension, 'txt')
-test.equal('path', testFile.path, FS.file('_test/test.txt').path)
-test.equal('path', testFile.path, FS.file('../test/_test/test.txt').path)
-test.equal('path', testFile.path, FS.file('../////test//_test///test.txt').path)
-test.equal('path', testFile.path, FS.file(testFile.path).path)
-test.equal('path', testFile.path, FS.file(testFile.url).path)
-test.equal('path', testFile.path, FS.file(testFile).path)
-// test.equal('path', testFile, FS.file('../test//_test///test.txt'))
+let file2 = testFolder.file('2.txt')
+file2.lines = ['a', 'b'];
+test.equal('lines', file2.lines, ['a', 'b'])
 
-testFile.text = 'aa';
+
+console.log('time', file1.time)
+console.log('blocks', file1.block)
+
+test.equal('exists', file1.exists, true)
+// file1.remove()
+test.equal('exists', file1.exists, false)
+
+test.equal('name', file1.name, 'test.txt')
+test.equal('basename', file1.basename, 'test')
+test.equal('extension', file1.extension, 'txt')
+test.equal('path', file1.path, FS.file('_test/test.txt').path)
+test.equal('path', file1.path, FS.file('../test/_test/test.txt').path)
+test.equal('path', file1.path, FS.file('../////test//_test///test.txt').path)
+test.equal('path', file1.path, FS.file(file1.path).path)
+test.equal('path', file1.path, FS.file(file1.url).path)
+test.equal('path', file1.path, FS.file(file1).path)
+// test.equal('path', file1, FS.file('../test//_test///test.txt'))
+
+let file3 = testFolder.file('3.json')
+file3.json = { a: 1 }
+test.equal('json', file3.json, { a: 1 })
+
+
+// file1.text = 'aa';
 testFolder.file('bb.txt').text = 'bb'
 test.equal('list', testFolder.list.length, 2)
 test.equal('exists', testFolder.exists, true)
-testFolder.remove()
+// testFolder.remove()
 test.equal('exists', testFolder.exists, false)
 
 console.log('wait for events')

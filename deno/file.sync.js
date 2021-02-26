@@ -4,6 +4,7 @@
 // import { path2url } from '../base/lib.js'
 import { File, SyncFolder, time } from './mod.js'
 // import { time } from './lib.js'
+import { lines } from './deps.js'
 
 export class SyncFile extends File {
 	// type = 'file'
@@ -35,6 +36,26 @@ export class SyncFile extends File {
 		// this._debug('read')
 		// try { return Deno.readFileSync(this._url) }
 		// catch { return null }
+	}
+
+
+	get json() {
+		try {
+			return JSON.parse(this.text)
+		} catch {
+			return null
+		}
+	}
+	set json(p) {
+		this.text = JSON.stringify(p, null, '\t')
+	}
+
+	get lines() {
+		return lines(this.text)
+	}
+
+	set lines(p) {
+		this.text = p.join('\n')
 	}
 
 	get info() {
@@ -77,7 +98,7 @@ export class SyncFile extends File {
 
 
 	remove() {
-		this.exec('remove','removeSync', this._url)
+		this.exec('remove', 'removeSync', this._url)
 		// this._debug('remove')
 		// try { Deno.removeSync(this._url) }
 		// catch { }
