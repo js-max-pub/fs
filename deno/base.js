@@ -24,12 +24,18 @@ export class Base {
 		debug(this.type, this.mode, action, this.path, ...x)
 	}
 
-		/**
-	 * watch-events
-	 * @param {*} event 
-	 */
+	/**
+ * watch-events
+ * @param {*} event 
+ */
 	fromEvent(event) {
 		this.event = event;
 		return this;
+	}
+
+	exec(action, func, ...p) {
+		this._debug(action)
+		try { return Deno[func](...p) }
+		catch { return null }
 	}
 }

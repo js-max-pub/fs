@@ -18,9 +18,10 @@ export class SyncFolder extends Folder {
 
 	// same as SyncFile
 	get info() {
-		this._debug('info')
-		try { return Deno.statSync(this._url) }
-		catch { return null }
+		return this.exec('info', 'statSync', this._url)
+		// this._debug('info')
+		// try { return Deno.statSync(this._url) }
+		// catch { return null }
 	}
 	get time() {
 		return time(this.info)
@@ -33,14 +34,16 @@ export class SyncFolder extends Folder {
 
 
 	create() {
-		this._debug('create')
-		Deno.mkdirSync(this._url, { recursive: true })
+		this.exec('create', 'mkdirSync', this._url, { recursive: true })
+		// this._debug('create')
+		// Deno.mkdirSync(this._url, { recursive: true })
 		return this;
 	}
 
 	get list() {
-		try { var rawList = Deno.readDirSync(this._url) }
-		catch { var rawList = [] }
+		let rawList = this.exec('list', 'readDirSync', this._url)
+		// try { var rawList = Deno.readDirSync(this._url) }
+		// catch { var rawList = [] }
 		var output = [];
 		for (let item of rawList) {
 			if (item.isDirectory) output.push(this.folder(item.name))
@@ -50,17 +53,19 @@ export class SyncFolder extends Folder {
 	}
 
 	remove() {
-		try {
-			Deno.removeSync(this._url, { recursive: true });
-		} catch { }
+		this.exec('remove', 'removeSync', this._url, { recursive: true })
+		// try {
+		// 	Deno.removeSync(this._url, { recursive: true });
+		// } catch { }
 		return this;
 	}
 
 
 	async * events() {
 		// console.log('watch',this.path)
-		try { var watcher = Deno.watchFs(this.path) }
-		catch { return null }
+		// try { var watcher = Deno.watchFs(this.path) }
+		// catch { return null }
+		let watcher = this.exec('watch', 'watchFS', this.path) ?? []
 		for await (const event of watcher) {
 			// console.log('watch-event', event)
 			for (const path of event.paths) {

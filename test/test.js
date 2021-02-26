@@ -33,7 +33,7 @@ testFile.text = 'aa';
 testFolder.file('bb.txt').text = 'bb'
 test.equal('list', testFolder.list.length, 2)
 test.equal('exists', testFolder.exists, true)
-// testFolder.remove()
+testFolder.remove()
 test.equal('exists', testFolder.exists, false)
 
 console.log('wait for events')
