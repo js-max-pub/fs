@@ -14,10 +14,16 @@ for (let item of here.list) {
 }
 
 
-let test = here.folder('_test').create()
+let test = FS.folder('_test').create()
+
+console.log(test.file('a.txt').path)
+console.log(file('_test/a.txt').path)
+console.log(file('a.txt').path)
+console.log(file('_test/a.txt', import.meta).path)
+console.log(file('_test/a.txt', import.meta.url).path)
 
 let sub = test.folder('2/3/4').create()
-test.file('a.txt').text = 'jo'
+test.file('a.txt').text = '\x1b[35m' + 'I am cyan' + "\x1b[36m" + ' jo'
 test.file('2/a.txt').text = 'asdgfasd'
 test.file('2/b.txt').text = ''
 test.file('2/3/a.txt').text = 'asdhfdgsdfgfasd'

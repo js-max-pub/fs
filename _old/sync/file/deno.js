@@ -6,8 +6,9 @@ export default class File extends Base {
 	get folder() {
 		return new Folder(this._path.split('/').slice(0, -1).join('/'))
 	}
-	
+
 	get text() {
+		this._debug('get text')
 		try { return Deno.readTextFileSync(this._path) }
 		catch { return null }
 	}
@@ -29,11 +30,18 @@ export default class File extends Base {
 		catch { return null }
 	}
 
+	get size() {
+		return this.info?.size ?? null
+	}
+
+	get exists() {
+		return this.info ? true : false
+	}
 
 
 
 
-	get path() {
+	get realpath() {
 		try {
 			return Deno.realPathSync(this._path).replaceAll('\\', '/');
 		} catch {

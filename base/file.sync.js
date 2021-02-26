@@ -1,36 +1,27 @@
 // import { Folder } from '../folder/deno.js';
 // import { lines } from 'https://js.max.pub/string/mod.js'
 
+import { path2url, debug } from './lib.js'
+
 
 
 export default class {
 	type = 'file'
-	_path;
 
-	constructor(path) {
-		this._path = path.replace('file://', '');;
+
+	get url() {
+		return this._url.href
 	}
 
-	/**
-	 * watch-events
-	 * @param {*} event 
-	 */
-	fromEvent(event) {
-		this.event = event;
-		return this;
+	_debug(action, ...x) {
+		debug(this.type, this.mode, action, this.path, ...x)
 	}
-
 
 	// get folder() {
 	// 	return new Folder(this._path.split('/').slice(0, -1).join('/'))
 	// }
 
-	get size() {
-		return this.info?.size ?? null
-	}
-	get exists() {
-		return this.info ? true : false
-	}
+
 
 	/**
 	 * sets append-mode for write
@@ -87,3 +78,9 @@ export default class {
 	// get size() {
 	// 	return this.stat?.size ?? null;
 	// }
+
+
+
+			// return Deno.build.os == 'windows'
+		// 	? this.url.replace('file:///', '')
+		// 	: this.url.replace('file://', '')

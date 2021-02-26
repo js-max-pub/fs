@@ -1,6 +1,6 @@
 import Base from './base.js';
 import File from '../file/deno.js';
-import AsyncFolder from '../../async/folder/deno.js'
+import AsyncFolder from '../../src/async/folder/deno.js.js'
 
 export default class Folder extends Base {
 
