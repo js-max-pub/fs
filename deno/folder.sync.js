@@ -63,9 +63,10 @@ export class SyncFolder extends Folder {
 
 	async * events() {
 		// console.log('watch',this.path)
-		// try { var watcher = Deno.watchFs(this.path) }
-		// catch { return null }
-		let watcher = this.exec('watch', 'watchFS', this.path) ?? []
+		try { var watcher = Deno.watchFs(this.path) }
+		catch { return null }
+		// let watcher = this.exec('watch', 'watchFS', this.path) //?? []
+		// console.log(watcher)
 		for await (const event of watcher) {
 			// console.log('watch-event', event)
 			for (const path of event.paths) {
