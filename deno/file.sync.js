@@ -66,6 +66,7 @@ export class SyncFile extends File {
 
 
 
+
 	// get realpath() {
 	// 	try {
 	// 		return Deno.realPathSync(this.path)//.replaceAll('\\', '/');

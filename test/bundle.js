@@ -33,6 +33,15 @@ class Base {
     get path() {
         return this.url.replace(URL_PREFIX, '');
     }
+    get name() {
+        return this.path?.split('/')?.slice(-1)?.[0] ?? null;
+    }
+    get basename() {
+        return this.name?.split('.')?.slice(0, -1)?.join('.') ?? null;
+    }
+    get extension() {
+        return this.name?.split('.')?.slice(-1)?.[0] ?? null;
+    }
     toString() {
         return this.path;
     }
