@@ -58,6 +58,17 @@ export class SyncFile extends File {
 		this.text = p.join('\n')
 	}
 
+	get ndjson() {
+		return this.lines.filter(x => x).map(x => {
+			try { return JSON.parse(x) }
+			catch { return null }
+		})
+	}
+
+	set ndjson(p) {
+		this.lines = p.map(x => JSON.stringify(x))
+	}
+
 	get info() {
 		return this.exec('info', 'statSync', this._url)
 		// this._debug('info')
