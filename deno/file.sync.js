@@ -55,7 +55,7 @@ export class SyncFile extends File {
 	}
 
 	set lines(p) {
-		this.text = p.join('\n')
+		this.text = p.join('\n') + '\n'
 	}
 
 	get ndjson() {
