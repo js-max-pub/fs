@@ -79,6 +79,13 @@ export class SyncFolder extends Folder {
 			}
 		}
 	}
+
+	async * listAndWatch() {
+		for (const item of this.list)
+			yield item
+		for await (const item of this.events())
+			yield item
+	}
 }
 
 
