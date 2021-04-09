@@ -51,6 +51,9 @@ export class SyncFolder extends Folder {
 		}
 		return output
 	}
+	get deepList() {
+		return this.list.map(x => x.type == 'file' ? x : [x, x.deepList]).flat(3)
+	}
 
 	remove() {
 		this.exec('remove', 'removeSync', this._url, { recursive: true })

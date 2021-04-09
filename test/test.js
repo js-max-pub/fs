@@ -52,6 +52,9 @@ test.equal('list', testFolder.list.length, 2)
 test.equal('exists', testFolder.exists, true)
 // testFolder.remove()
 test.equal('exists', testFolder.exists, false)
+let sub = testFolder.folder('sub').create()
+sub.file('more.txt').text = 'jo'
+console.log('deepList', testFolder.deepList.sort(FS.pathSort).map(x => x.path))
 
 console.log('wait for events')
 for await (let item of testFolder.events()) {
