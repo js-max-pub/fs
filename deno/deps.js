@@ -1,1 +1,1 @@
-export { lines } from 'https://js.max.pub/string/src.js'
+export { lines } from 'https://js.max.pub/string/mod.js'
