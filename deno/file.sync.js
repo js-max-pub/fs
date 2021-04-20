@@ -38,10 +38,8 @@ export class SyncFile extends File {
 		// catch { return null }
 	}	
 	set bytes(content) {
-		return this.exec('write', 'writeFileSync', this._url, content, { append: this._append })
-		// this._debug('read')
-		// try { return Deno.readFileSync(this._url) }
-		// catch { return null }
+		this.exec('write', 'writeFileSync', this._url, content, { append: this._append })
+		this._append = false
 	}
 
 
