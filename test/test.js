@@ -1,5 +1,5 @@
 import FS from '../deno.js'
-import test from 'https://js.max.pub/test/raw.js'
+import test from 'https://jsv.max.pub/test/2021/mod.js'
 // import './src/sync/test.url.js'
 // console.log(new URL('./url.txt'))
 
@@ -49,6 +49,7 @@ test.equal('json', file3.json, { a: 1 })
 // file1.text = 'aa';
 testFolder.file('bb.txt').text = 'bb'
 test.equal('list', testFolder.list.length, 2)
+console.log('list', testFolder.list.map(x=>x.name))
 test.equal('exists', testFolder.exists, true)
 // testFolder.remove()
 test.equal('exists', testFolder.exists, false)
