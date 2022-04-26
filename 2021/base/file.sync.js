@@ -54,7 +54,7 @@ export default class {
 		return this.name?.split('.')?.slice(0, -1)?.join('.') ?? null;
 	}
 	get extension() {
-		return this.name?.split('.')?.slice(-1)?.[0] ?? null;
+		return this.name?.split('.')?.slice(-1)?.[0]?.toLowerCase() ?? null;
 	}
 
 	toString() {

@@ -39,9 +39,14 @@ export class SyncFolder extends Folder {
 		// Deno.mkdirSync(this._url, { recursive: true })
 		return this;
 	}
-
+	get folders() {
+		return this.list.filter(x => x.type == 'folder')
+	}
+	get files() {
+		return this.list.filter(x => x.type == 'file')
+	}
 	get list() {
-		let rawList = this.exec('list', 'readDirSync', this._url)
+		let rawList = this.exec('list', 'readDirSync', this._url) ?? []
 		// try { var rawList = Deno.readDirSync(this._url) }
 		// catch { var rawList = [] }
 		var output = [];
@@ -49,10 +54,12 @@ export class SyncFolder extends Folder {
 			if (item.isDirectory) output.push(this.folder(item.name))
 			if (item.isFile) output.push(this.file(item.name))
 		}
+		console.log('list', this.path)
 		return output
 	}
 	get deepList() {
-		return this.list.map(x => x.type == 'file' ? x : [x, x.deepList]).flat(3)
+		console.log('deep list', this.path)
+		return this.list.map(x => x.type == 'file' ? x : [x, x.deepList]).flat(5)
 	}
 
 	remove() {

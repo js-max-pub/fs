@@ -31,7 +31,9 @@ export default class File extends Base {
 		catch { return null }
 	}
 
-
+	open(mode = { read: true }) {
+		return new Open(this, mode)
+	}
 
 
 
